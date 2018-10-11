@@ -21,6 +21,6 @@ describe("routes : static", () => {
         done();
       });
     });
-
   });
+    });
 });

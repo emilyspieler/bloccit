@@ -24,3 +24,4 @@ describe("routes : static", () => {
 
   });
 });
+});
