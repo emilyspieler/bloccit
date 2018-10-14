@@ -1,6 +1,6 @@
 const request = require("request");
 const server = require("../../src/server");
-const base = "http://localhost:3000/";
+const base = "http://localhost:3000/about";
 
 describe("routes : static", () => {
 
@@ -12,16 +12,8 @@ describe("routes : static", () => {
       request.get(base, (err, res, body) => {
         expect(res.statusCode).toBe(200);
         expect(body).toContain("About Us");
-
-//#3
-      request.get(base, (err, res, body) => {
-        console.log("BODY:", body);
-        expect(res.statusCode).toBe(200);
-
 //#4
-        done();
       });
     });
-});
   });
     });
