@@ -5,7 +5,7 @@ const base = "http://localhost:3000/";
 describe("routes : static", () => {
 
 //#1
-  describe("GET /", () => {
+  describe("GET /about", () => {
 
 //#2
     it("should return status code 200 and have 'About Us' in the body of the response", () => {
@@ -15,12 +15,13 @@ describe("routes : static", () => {
 
 //#3
       request.get(base, (err, res, body) => {
+        console.log("BODY:", body);
         expect(res.statusCode).toBe(200);
 
 //#4
         done();
       });
     });
+});
   });
     });
-});
