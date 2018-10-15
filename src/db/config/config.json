@@ -25,6 +25,6 @@
     "dialect": "postgres",
     "logging": false,
     "operatorsAliases": false,
-    "use_env_variable": "postgresql-clean-37565"
+    "use_env_variable": "postgresql-rigid-86756"
   }
 }
