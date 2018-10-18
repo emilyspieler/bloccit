@@ -1,6 +1,6 @@
 const request = require("request");
 const server = require("../../src/server");
-const base = "http://localhost:3000/topics";
+const base = "http://localhost:3000/topics/";
 
 const sequelize = require("../../src/db/models/index").sequelize;
 const Topic = require("../../src/db/models").Topic;
@@ -25,7 +25,7 @@ describe("routes : posts", () => {
         Post.create({
           title: "Snowball Fighting",
           body: "So much snow!",
-          topicId: this.topic.id
+          topicId: topic.id
         })
         .then((post) => {
           this.post = post;
@@ -43,7 +43,7 @@ describe("routes : posts", () => {
   describe("GET /topics/:topicId/posts/new", () => {
 
     it("should render a new post form", () => {
-      request.get(`${base}/${this.topic.id}/posts/new`, (err, res, body) => {
+      request.get(`${base}/${Topic.id}/posts/new`, (err, res, body) => {
         expect(err).toBeNull();
         expect(body).toContain("New Post");
         done();
@@ -52,7 +52,8 @@ describe("routes : posts", () => {
 
   });
 
-  describe("POST /topics/:topicId/posts/create", () => {
+
+ describe("POST /topics/:topicId/posts/create", () => {
 
    it("should create a new post and redirect", () => {
       const options = {
@@ -95,6 +96,7 @@ describe("routes : posts", () => {
 
    });
 
+
    describe("GET /topics/:topicId/posts/:id/edit", () => {
 
      it("should render a view with an edit post form", () => {
@@ -108,66 +110,65 @@ describe("routes : posts", () => {
 
    });
 
-   describe("POST /topics/:topicId/posts/:id/destroy", () => {
-
-     it("should delete the post with the associated ID", () => {
-
-//#1
-       expect(this.post.id).toBe(1);
-
-       request.post(`${base}/${this.topic.id}/posts/${this.post.id}/destroy`, (err, res, body) => {
-
-//#2
-         Post.findById(1)
-         .then((post) => {
-           expect(err).toBeNull();
-           expect(post).toBeNull();
-           done();
-         })
-       });
-
-     });
-
-   });
-
-
    describe("POST /topics/:topicId/posts/:id/update", () => {
 
-     it("should return a status code 302", () => {
-       request.post({
-         url: `${base}/${this.topic.id}/posts/${this.post.id}/update`,
-         form: {
-           title: "Snowman Building Competition",
-           body: "I love watching them melt slowly."
-         }
-       }, (err, res, body) => {
-         expect(res.statusCode).toBe(302);
-         done();
-       });
-     });
-
-     it("should update the post with the given values", () => {
-         const options = {
+       it("should return a status code 302", () => {
+         request.post({
            url: `${base}/${this.topic.id}/posts/${this.post.id}/update`,
            form: {
-             title: "Snowman Building Competition"
+             title: "Snowman Building Competition",
+             body: "I love watching them melt slowly."
            }
-         };
-         request.post(options,
-           (err, res, body) => {
-
-           expect(err).toBeNull();
-
-           Post.findOne({
-             where: {id: this.post.id}
-           })
-           .then((post) => {
-             expect(post.title).toBe("Snowman Building Competition");
-             done();
-           });
+         }, (err, res, body) => {
+           expect(res.statusCode).toBe(302);
+           done();
          });
+       });
+
+       it("should update the post with the given values", () => {
+           const options = {
+             url: `${base}/${this.topic.id}/posts/${this.post.id}/update`,
+             form: {
+               title: "Snowman Building Competition"
+             }
+           };
+           request.post(options,
+             (err, res, body) => {
+
+             expect(err).toBeNull();
+
+             Post.findOne({
+               where: {id: this.post.id}
+             })
+             .then((post) => {
+               expect(post.title).toBe("Snowman Building Competition");
+               done();
+             });
+           });
+       });
+
      });
 
-   });
+     describe("POST /topics/:topicId/posts/:id/destroy", () => {
+
+        it("should delete the post with the associated ID", () => {
+
+   //#1
+          expect(this.post.id).toBe(1);
+
+          request.post(`${base}/${this.topic.id}/posts/${this.post.id}/destroy`, (err, res, body) => {
+
+   //#2
+            Post.findById(1)
+            .then((post) => {
+              expect(err).toBeNull();
+              expect(post).toBeNull();
+              done();
+            })
+          });
+
+        });
+
+      });
 
 });
