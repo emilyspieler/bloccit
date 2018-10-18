@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
        type: DataTypes.INTEGER,
        allowNull: false
      }
-
+     
   }, {});
   Post.associate = function(models) {
     Post.belongsTo(models.Topic, {
