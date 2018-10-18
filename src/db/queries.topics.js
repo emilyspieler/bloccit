@@ -1,4 +1,5 @@
 const Topic = require("./models").Topic;
+const Post = require("./models").Post;
 
 module.exports = {
 
@@ -15,6 +16,26 @@ module.exports = {
     })
   },
 
+  getTopic(id, callback){
+      return Topic.findById(id)
+
+      return Topic.findById(id, {
+
+//#3
+      include: [{
+          model: Post,
+          as: "posts"
+        }]
+      })
+
+
+      .then((topic) => {
+        callback(null, topic);
+      })
+      .catch((err) => {
+        callback(err);
+      })
+    },
 
   addTopic(newTopic, callback){
         return Topic.create({
@@ -29,15 +50,6 @@ module.exports = {
         })
       },
 
-      getTopic(id, callback){
-          return Topic.findById(id)
-          .then((topic) => {
-            callback(null, topic);
-          })
-          .catch((err) => {
-            callback(err);
-          })
-        },
 
         deleteTopic(id, callback){
          return Topic.destroy({
@@ -59,7 +71,7 @@ module.exports = {
        }
 
 //#1
-       topic.update(updatedTopic, {
+       Topic.update(updatedTopic, {
          fields: Object.keys(updatedTopic)
        })
        .then(() => {

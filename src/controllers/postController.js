@@ -31,6 +31,7 @@ module.exports = {
      });
    },
 
+
    destroy(req, res, next){
      postQueries.deletePost(req.params.id, (err, deletedRecordsCount) => {
        if(err){

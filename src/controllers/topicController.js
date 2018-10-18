@@ -27,7 +27,7 @@ module.exports = {
          });
        },
 
-       show(req, res, next){
+  show(req, res, next){
 
 //#1
      topicQueries.getTopic(req.params.id, (err, topic) => {
