@@ -15,6 +15,16 @@ module.exports = {
     })
   },
 
+  getAdvertisement(id, callback){
+      return Advertisement.findById(id)
+      .then((advertisement) => {
+        callback(null, advertisement);
+      })
+      .catch((err) => {
+        callback(err);
+      })
+    },
+
   addAdvertisement(newAdvertisement, callback){
         return Advertisement.create({
           title: newAdvertisement.title,
@@ -28,15 +38,6 @@ module.exports = {
         })
       },
 
-      getAdvertisement(id, callback){
-          return Advertisement.findById(id)
-          .then((advertisement) => {
-            callback(null, advertisement);
-          })
-          .catch((err) => {
-            callback(err);
-          })
-        },
 
         deleteAdvertisement(id, callback){
          return Advertisement.destroy({
@@ -58,7 +59,7 @@ module.exports = {
        }
 
 //#1
-       advertisement.update(updatedAdvertisement, {
+       Advertisement.update(updatedAdvertisement, {
          fields: Object.keys(updatedAdvertisement)
        })
        .then(() => {
