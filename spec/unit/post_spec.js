@@ -39,7 +39,7 @@ describe("Post", () => {
 
   describe("#create()", () => {
 
-     it("should create a post object with a title, body, and assigned topic", (done) => {
+     it("should create a post object with a title, body, and assigned topic", () => {
 //#1
        Post.create({
          title: "Pros of Cryosleep during the long journey",
@@ -62,7 +62,7 @@ describe("Post", () => {
 
    });
 
-   it("should not create a post with missing title, body, or assigned topic", (done) => {
+   it("should not create a post with missing title, body, or assigned topic", () => {
      Post.create({
        title: "Pros of Cryosleep during the long journey"
      })
@@ -86,7 +86,7 @@ describe("Post", () => {
 
    describe("#setTopic()", () => {
 
-        it("should associate a topic and a post together", (done) => {
+        it("should associate a topic and a post together", () => {
 
    // #1
           Topic.create({
@@ -112,7 +112,7 @@ describe("Post", () => {
 
       describe("#getTopic()", () => {
 
-     it("should return the associated topic", (done) => {
+     it("should return the associated topic", () => {
 
        this.post.getTopic()
        .then((associatedTopic) => {

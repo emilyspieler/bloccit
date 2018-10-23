@@ -28,6 +28,11 @@ module.exports = (sequelize, DataTypes) => {
       as: "posts"
     });
 
+    Topic.hasMany(models.Flair, {
+       foreignKey: "topicId",
+       as: "flairs"
+     });
+
   };
   return Topic;
 
