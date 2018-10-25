@@ -1,5 +1,7 @@
 const Flair = require("./models").Flair;
-const Topic = require("./models").Post;
+const Topic = require("./models").Topic;
+
+//problem was here? 
 
 module.exports = {
   addFlair(newFlair, callback){

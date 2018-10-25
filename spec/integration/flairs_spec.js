@@ -34,7 +34,7 @@ describe("routes : flairs", () => {
       Flair.create({
           name: "Fairly Flair",
           color: "Yellow!",
-          postId: this.post.id
+          topicId: this.topic.id
         })
         .then((flair) => {
           this.flair = flair;
@@ -48,10 +48,10 @@ describe("routes : flairs", () => {
   })
   });
 
-  describe("GET /posts/:postId/flairs/new", () => {
+  describe("GET /topics/:topicId/flairs/new", () => {
 
     it("should render a new flair form", () => {
-      request.get(`${base}/${this.post.id}/flairs/new`, (err, res, body) => {
+      request.get(`${base}/${this.topic.id}/posts/new`, (err, res, body) => {
         expect(err).toBeNull();
         expect(body).toContain("New Flair");
         done();
@@ -60,7 +60,7 @@ describe("routes : flairs", () => {
 
   });
 
-  describe("POST /posts/:postId/flairs/create", () => {
+  describe("POST /topics/:topicId/flairs/create", () => {
 
    it("should create a new flair and redirect", () => {
       const options = {
@@ -78,7 +78,7 @@ describe("routes : flairs", () => {
             expect(flair).not.toBeNull();
             expect(flair.name).toBe("New Flair");
             expect(flair.color).toBe("Yellow!");
-            expect(flair.postId).not.toBeNull();
+            expect(flair.topicId).not.toBeNull();
             done();
           })
           .catch((err) => {
@@ -88,10 +88,10 @@ describe("routes : flairs", () => {
            });
        });
    });
- describe("GET /posts/:postId/specs/:id", () => {
+ describe("GET /topics/:topicId/specs/:id", () => {
 
      it("should render a view with the selected flair", () => {
-       request.get(`${base}/${this.post.id}/flairs/${this.flair.id}`, (err, res, body) => {
+       request.get(`${base}/${this.topic.id}/flairs/${this.flair.id}`, (err, res, body) => {
          expect(err).toBeNull();
          expect(body).toContain("Fairly Flair");
          done();
@@ -100,14 +100,14 @@ describe("routes : flairs", () => {
 
    });
 
-   describe("POST /posts/:postId/flairs/:id/destroy", () => {
+   describe("POST /topics/:topicId/flairs/:id/destroy", () => {
 
         it("should delete the flair with the associated ID", () => {
 
    //#1
           expect(flair.id).toBe(1);
 
-          request.flair(`${base}/${this.post.id}/posts/${this.flair.id}/destroy`, (err, res, body) => {
+          request.flair(`${base}/${this.topic.id}/posts/${this.flair.id}/destroy`, (err, res, body) => {
 
    //#2
             Flair.findById(1)
@@ -121,10 +121,10 @@ describe("routes : flairs", () => {
         });
 
       });
-      describe("GET /postss/:postId/flairs/:id/edit", () => {
+      describe("GET /topicd/:topicId/flairs/:id/edit", () => {
 
      it("should render a view with an edit flair form", () => {
-       request.get(`${base}/${this.post.id}/posts/${this.flair.id}/edit`, (err, res, body) => {
+       request.get(`${base}/${this.topic.id}/posts/${this.flair.id}/edit`, (err, res, body) => {
          expect(err).toBeNull();
          expect(body).toContain("Edit flair");
          expect(body).toContain("New Flair");
@@ -134,11 +134,11 @@ describe("routes : flairs", () => {
 
    });
 
-   describe("POST /posts/:postId/flairs/:id/update", () => {
+   describe("POST /topics/:topicId/flairs/:id/update", () => {
 
      it("should return a status code 302", () => {
        request.flair({
-         url: `${base}/${this.post.id}/flairs/${this.flair.id}/update`,
+         url: `${base}/${this.topic.id}/flairs/${this.flair.id}/update`,
          form: {
            name: "Fairly Flair",
            color: "Yellow!"
@@ -152,7 +152,7 @@ describe("routes : flairs", () => {
 
      it("should update the flair with the given values", () => {
             const options = {
-                url: `${base}/${this.post.id}/flairs/${this.flair.id}/update`,
+                url: `${base}/${this.topic.id}/flairs/${this.flair.id}/update`,
                 form: {
                     name: "Updated!",
                     color: "Purple"
