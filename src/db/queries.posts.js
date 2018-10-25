@@ -16,7 +16,7 @@ module.exports = {
 
    getPost(id, callback){
      return Post.findById(id, {
-//#3
+//works without include statement, need help figuring out how to make it work WITH include statement
      include: [{
          model: Flair,
          as: "flairs"
