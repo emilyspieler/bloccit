@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../static/partials/head.ejs %>
+  </head>
+  <body>
+    <% include ../static/partials/navbar.ejs %>
+
+    <main class="container">
+      <h1><%= flair.title %></h1>
+
+      <form style="display:initial" action="/posts/<%= flair.postId %>/flairs/<%= flair.id %>/destroy" method="flair">
+             <button type="submit" class="btn btn-danger">Delete</button>
+      </form>
+
+      <p><%= flair.body %></p>
+    </main>
+
+    <% include ../static/partials/baseScripts.ejs %>
+
+  </body>
+</html>

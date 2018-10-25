@@ -1,7 +1,5 @@
 const Topic = require("./models").Topic;
 const Post = require("./models").Post;
-const Flair = require("./models").Flair;
-
 
 module.exports = {
 
@@ -20,20 +18,13 @@ module.exports = {
 
   getTopic(id, callback){
     //  return Topic.findById(id)
-
       return Topic.findById(id, {
-
 //#3
       include: [{
           model: Post,
           as: "posts"
-        },
-        {
-            model: Flair,
-            as: "flairs"
-          }]
+        }]
       })
-
 
       .then((topic) => {
         callback(null, topic);
@@ -77,7 +68,7 @@ module.exports = {
        }
 
 //#1
-       Topic.update(updatedTopic, {
+       topic.update(updatedTopic, {
          fields: Object.keys(updatedTopic)
        })
        .then(() => {

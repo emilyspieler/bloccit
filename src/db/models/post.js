@@ -17,10 +17,17 @@ module.exports = (sequelize, DataTypes) => {
 
   }, {});
   Post.associate = function(models) {
+
     Post.belongsTo(models.Topic, {
        foreignKey: "topicId",
        onDelete: "CASCADE"
      });
+
+     Post.hasMany(models.Flair, {
+       foreignKey: "flairId",
+       as: "flairs"
+     });
+
   };
   return Post;
 };

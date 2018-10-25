@@ -37,7 +37,7 @@ describe("Topic", () => {
 
     topic.getPosts()     //returns an array of Sequelize Model instances
       .then((posts) => {
-        console.log(posts[0].title);
+        console.log(posts[1].title);
     })
 
    });
