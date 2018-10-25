@@ -9,11 +9,13 @@
     <main class="container">
       <h1><%= flair.title %></h1>
 
+      <a href="/topics/<%= flair.topicId %>/flairs/<%= flair.id %>/edit" class="btn btn-warning">Edit Flair</a>
+
       <form style="display:initial" action="/topics/<%= flair.topicId %>/flairs/<%= flair.id %>/destroy" method="flair">
              <button type="submit" class="btn btn-danger">Delete</button>
       </form>
 
-      <p><%= flair.body %></p>
+      <p><%= flair.name %></p>
     </main>
 
     <% include ../static/partials/baseScripts.ejs %>

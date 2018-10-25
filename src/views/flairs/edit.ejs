@@ -10,7 +10,7 @@
 
       <h1>Edit Flair</h1>
 
-      <form action="/topics/<%= flair.topicId %>/flairs/<%= flair.id %>/update" method="flair">
+      <form action="/topics/<%= flair.topicId %>/flairs/<%= flair.id %>/update" method="post">
         <div class="form-group">
           <label for="name">Flair Name</label>
           <input value="<%= flair.title %>" type="text" class="form-control" name="name" aria-describedby="nameHelp" placeholder="Enter Name">
