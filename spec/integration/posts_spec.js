@@ -172,4 +172,34 @@ describe("routes : posts", () => {
 
      });
 
+     it("should not create a new post that fails validations", () => {/* spec implementation */});
+
+     it("should not create a new post that fails validations", () => {
+       const options = {
+         url: `${base}/${this.topic.id}/posts/create`,
+         form: {
+
+//#1
+           title: "a",
+           body: "b"
+         }
+       };
+
+       request.post(options,
+         (err, res, body) => {
+
+//#2
+           Post.findOne({where: {title: "a"}})
+           .then((post) => {
+               expect(post).toBeNull();
+               done();
+           })
+           .catch((err) => {
+             console.log(err);
+             done();
+           });
+         }
+       );
+     });
+
 });
