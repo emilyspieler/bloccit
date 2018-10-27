@@ -163,4 +163,35 @@ describe("POST /topics/create", () => {
 
    });
 
+
+   it("should not create a new topic that fails validations", () => {
+     const options = {
+       url: `${base}/${this.topic.id}/create`,
+       form: {
+
+  //#1
+         title: "c",
+         body: "d"
+       }
+     };
+
+     request.post(options,
+       (err, res, body) => {
+
+  //#2
+         Topic.findOne({where: {title: "c"}})
+         .then((topic) => {
+             expect(topic).toBeNull();
+             done();
+         })
+         .catch((err) => {
+           console.log(err);
+           done();
+         });
+       }
+     );
+   });
+
+
+
 });
