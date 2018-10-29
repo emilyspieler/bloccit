@@ -15,8 +15,10 @@
 <!-- #3 -->
       <% messages.error.forEach((err) => { %>
         <li><%= `${err.param} ${err.msg}` %></li>
+        <li>ERROR: <br><%= `${err}` %></li>
       <% }) %>
     </ul>
+
 
     <% } else { %>
        <p><%= messages.notice %></p>
