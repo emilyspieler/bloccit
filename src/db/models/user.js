@@ -11,12 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     password: {
     type: DataTypes.STRING,
     allowNull: false
-  },
-   role: {
-     type: DataTypes.STRING,
-     allowNull: false,
-     defaultValue: "member"
-   }
+  }
   }, {});
   User.associate = function(models) {
     // associations can be defined here
@@ -24,9 +19,6 @@ module.exports = (sequelize, DataTypes) => {
        foreignKey: "userId",
        as: "posts"
      });
-  };
-  User.prototype.isAdmin = function() {
-    return this.role === "admin";
   };
   return User;
 };
