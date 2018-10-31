@@ -14,7 +14,6 @@ const faker = require("faker");
    });
  }
 
-
 module.exports = {
   up: (queryInterface, Sequelize) => {
     /*
@@ -27,7 +26,7 @@ module.exports = {
         isBetaMember: false
       }], {});
     */
-    return queryInterface.bulkInsert("Posts", posts, {});
+      return queryInterface.bulkInsert("Posts", posts, {});
   },
 
   down: (queryInterface, Sequelize) => {
@@ -38,6 +37,6 @@ module.exports = {
       Example:
       return queryInterface.bulkDelete('Person', null, {});
     */
-    return queryInterface.bulkDelete("Posts", null, {});
+        return queryInterface.bulkDelete("Posts", null, {});
   }
 };

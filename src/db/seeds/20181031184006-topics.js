@@ -12,10 +12,11 @@ const faker = require("faker");
      createdAt: new Date(),
      updatedAt: new Date()
    });
- }
+
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
+    return queryInterface.bulkInsert("Topics", topics, {});
     /*
       Add altering commands here.
       Return a promise to correctly handle asynchronicity.
@@ -26,7 +27,6 @@ module.exports = {
         isBetaMember: false
       }], {});
     */
-    return queryInterface.bulkInsert("Topics", topics, {});
   },
 
   down: (queryInterface, Sequelize) => {
