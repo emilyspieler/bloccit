@@ -22,7 +22,6 @@ module.exports = {
     },
 
    show(req, res, next){
-     console.log("WE ARE HERE -- params.id = " + req.params.id);
      postQueries.getPost(req.params.id, (err, post) => {
        if(err || post == null){
          res.redirect(404, "/");

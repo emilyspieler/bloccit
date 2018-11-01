@@ -24,7 +24,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       },
-      postId: {
+      topicId: {
          type: Sequelize.INTEGER,
          onDelete: "CASCADE", // delete post if parent topic is deleted
          allowNull: false,    // validation to prevent null value

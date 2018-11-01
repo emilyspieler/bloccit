@@ -2,7 +2,6 @@ const topicQueries = require("../db/queries.topics.js");
 
 module.exports = {
   index(req, res, next){
-    console.log("Look here");
     topicQueries.getAllTopics((err, topics) => {
             if(err){
               res.redirect(500, "static/index");
@@ -11,9 +10,11 @@ module.exports = {
             }
           })
         },
+
   new(req, res, next){
       res.render("topics/new");
     },
+
     create(req, res, next){
          let newTopic = {
            title: req.body.title,
@@ -29,7 +30,6 @@ module.exports = {
        },
 
   show(req, res, next){
-    console.log("WE ARE HERE -- params.id = " + req.params.id);
      topicQueries.getTopic(req.params.id, (err, topic) => {
        if(err || topic == null){
          res.redirect(404, "/");
@@ -60,11 +60,7 @@ module.exports = {
    },
 
    update(req, res, next){
-
-//#1
      topicQueries.updateTopic(req.params.id, req.body, (err, topic) => {
-
-//#2
        if(err || topic == null){
          res.redirect(404, `/topics/${req.params.id}/edit`);
        } else {

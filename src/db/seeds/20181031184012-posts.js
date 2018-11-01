@@ -10,7 +10,9 @@ const faker = require("faker");
      title: faker.hacker.noun(),
      body: faker.hacker.phrase(),
      createdAt: new Date(),
-     updatedAt: new Date()
+     updatedAt: new Date(),
+     topicId: 1,
+     userId: 1
    });
  }
 
