@@ -4,6 +4,7 @@ const Topic = require("./models").Topic;
 module.exports = {
 
    addPost(newPost, callback){
+     console.log(err)
       return Post.create(newPost)
       .then((post) => {
         callback(null, post);

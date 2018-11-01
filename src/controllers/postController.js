@@ -3,6 +3,7 @@ const postQueries = require("../db/queries.posts.js");
 module.exports = {
 
   new(req, res, next){
+     console.log("WE ARE HERE -- params.id = " + req.params.id);
     res.render("posts/new", {topicId: req.params.topicId});
   },
 
