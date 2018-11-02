@@ -1,10 +1,10 @@
 const Post = require("./models").Post;
 const Topic = require("./models").Topic;
+const User = require("./models").User;
 
 module.exports = {
 
    addPost(newPost, callback){
-     console.log(err)
       return Post.create(newPost)
       .then((post) => {
         callback(null, post);
