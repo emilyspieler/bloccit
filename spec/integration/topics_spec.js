@@ -29,9 +29,35 @@ describe("routes : topics", () => {
 
       });
 
+      describe("admin user performing CRUD actions for Topic", () => {
+
+    // #2: // before each test in admin user context, send an authentication request
+           // to a route we will create to mock an authentication request
+         beforeEach((done) => {
+           User.create({
+             email: "admin@example.com",
+             password: "123456",
+             role: "admin"
+           })
+           .then((user) => {
+             request.get({         // mock authentication
+               url: "http://localhost:3000/auth/fake",
+               form: {
+                 role: user.role,     // mock authenticate as admin user
+                 userId: user.id,
+                 email: user.email
+               }
+             },
+               (err, res, body) => {
+                 done();
+               }
+             );
+           });
+         });
+
   describe("GET /topics", () => {
 
-    it("should return a status code 200 and all topics", () => {
+    it("should return a status code 200 and all topics", (done) => {
       request.get(base, (err, res, body) => {
         expect(res.statusCode).toBe(200);
         done();
@@ -41,7 +67,7 @@ describe("routes : topics", () => {
 
   describe("GET /topics/new", () => {
 
-  it("should render a new topic form", () => {
+  it("should render a new topic form", (done) => {
   request.get(`${base}new`, (err, res, body) => {
     expect(err).toBeNull();
     expect(body).toContain("New Topic");
@@ -59,7 +85,7 @@ describe("POST /topics/create", () => {
         }
       };
 
-      it("should create a new topic and redirect", () => {
+      it("should create a new topic and redirect", (done) => {
 
 //#1
         request.post(options,
@@ -84,7 +110,7 @@ describe("POST /topics/create", () => {
 
     describe("GET /topics/:id", () => {
 
-         it("should render a view with the selected topic", () => {
+         it("should render a view with the selected topic", (done) => {
            request.get(`${base}${this.topic.id}`, (err, res, body) => {
              expect(err).toBeNull();
              expect(body).toContain("JS Frameworks");
@@ -96,7 +122,7 @@ describe("POST /topics/create", () => {
 
        describe("POST /topics/:id/destroy", () => {
 
-     it("should delete the topic with the associated ID", () => {
+     it("should delete the topic with the associated ID", (done) => {
 
  //#1
        Topic.all()
@@ -123,7 +149,7 @@ describe("POST /topics/create", () => {
 
      describe("GET /topics/:id/edit", () => {
 
-         it("should render a view with an edit topic form", () => {
+         it("should render a view with an edit topic form", (done) => {
            request.get(`${base}${this.topic.id}/edit`, (err, res, body) => {
              expect(err).toBeNull();
              expect(body).toContain("Edit Topic");
@@ -136,7 +162,7 @@ describe("POST /topics/create", () => {
 
        describe("POST /topics/:id/update", () => {
 
-            it("should update the topic with the given values", () => {
+            it("should update the topic with the given values", (done) => {
                const options = {
                   url: `${base}${this.topic.id}/update`,
                   form: {
@@ -165,7 +191,7 @@ describe("POST /topics/create", () => {
    });
 
 
-   it("should not create a new topic that fails validations", () => {
+   it("should not create a new topic that fails validations", (done) => {
      const options = {
        url: `${base}/${this.topic.id}/create`,
        form: {
@@ -193,6 +219,153 @@ describe("POST /topics/create", () => {
      );
    });
 
+   describe("member user performing CRUD actions for Topic", () => {
 
+ // #4: Send mock request and authenticate as a member user
+     beforeEach((done) => {
+       request.get({
+         url: "http://localhost:3000/auth/fake",
+         form: {
+           role: "member"
+         }
+       },
+         (err, res, body) => {
+           done();
+         }
+       );
+     });
+
+     describe("GET /topics", () => {
+
+      it("should respond with all topics", (done) => {
+        request.get(base, (err, res, body) => {
+          expect(err).toBeNull();
+          expect(body).toContain("Topics");
+          expect(body).toContain("JS Frameworks");
+          done();
+        });
+      });
+
+    });
+
+    describe("GET /topics/new", () => {
+
+      it("should redirect to topics view", (done) => {
+        request.get(`${base}new`, (err, res, body) => {
+          expect(err).toBeNull();
+          expect(body).toContain("Topics");
+          done();
+        });
+      });
+
+    });
+
+    describe("POST /topics/create", () => {
+      const options = {
+        url: `${base}create`,
+        form: {
+          title: "blink-182 songs",
+          description: "What's your favorite blink-182 song?"
+        }
+      }
+
+      it("should not create a new topic", (done) => {
+        request.post(options,
+          (err, res, body) => {
+            Topic.findOne({where: {title: "blink-182 songs"}})
+            .then((topic) => {
+              expect(topic).toBeNull(); // no topic should be returned
+              done();
+            })
+            .catch((err) => {
+              console.log(err);
+              done();
+            });
+          }
+        );
+      });
+    });
+
+    describe("GET /topics/:id", () => {
+
+      it("should render a view with the selected topic", (done) => {
+        // variables defined outside, like `this.topic` are only available
+        // inside `it` blocks.
+        request.get(`${base}${this.topic.id}`, (err, res, body) => {
+          expect(err).toBeNull();
+          expect(body).toContain("JS Frameworks");
+          done();
+        });
+      });
+    });
+
+    describe("POST /topics/:id/destroy", () => {
+
+      it("should not delete the topic with the associated ID", (done) => {
+
+        Topic.all()
+        .then((topics) => {
+          const topicCountBeforeDelete = topics.length;
+
+          expect(topicCountBeforeDelete).toBe(1);
+
+          request.post(`${base}${this.topic.id}/destroy`, (err, res, body) => {
+            Topic.all()
+            .then((topics) => {
+              // confirm that no topics were deleted
+              expect(topics.length).toBe(topicCountBeforeDelete);
+              done();
+            })
+
+          });
+        })
+
+      });
+
+    });
+
+    describe("GET /topics/:id/edit", () => {
+
+      it("should not render a view with an edit topic form", (done) => {
+
+        request.get(`${base}${this.topic.id}/edit`, (err, res, body) => {
+          expect(err).toBeNull();
+          expect(body).not.toContain("Edit Topic");
+          expect(body).toContain("JS Frameworks"); // confirm redirect to topic show
+          done();
+        });
+      });
+
+    });
+
+    describe("POST /topics/:id/update", () => {
+
+      it("should not update the topic with the given values", (done) => {
+        const options = {
+          url: `${base}${this.topic.id}/update`,
+          form: {
+            title: "JavaScript Frameworks",
+            description: "There are a lot of them"
+          }
+        }
+
+        request.post(options,
+        (err, res, body) => {
+          expect(err).toBeNull();
+          Topic.findOne({
+            where: { id:1 }
+          })
+          .then((topic) => {
+            expect(topic.title).toBe("JS Frameworks"); // confirm title is unchanged
+            done();
+          });
+        });
+      });
+
+    });
+
+  });
+
+});
 
 });

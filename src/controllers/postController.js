@@ -10,7 +10,8 @@ module.exports = {
       let newPost= {
         title: req.body.title,
         body: req.body.body,
-        topicId: req.params.topicId
+        topicId: req.params.topicId,
+        userId: req.user.id
       };
       console.log(req.body)
       postQueries.addPost(newPost, (err, post) => {
