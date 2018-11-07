@@ -71,4 +71,52 @@ describe("routes : comments", () => {
 
   //test suites will go there
 
-});
+  describe("POST /topics/:topicId/posts/:postid/destroy", () => {
+
+     it("admin should delete the comment with the associated ID", () => {
+
+       expect(this.user.id).toBe(1);
+       expect(this.post.id).toBe(1);
+
+       request.post(`${base}/${this.topic.id}/posts/${this.post.id}/destroy`, (err, res, body) => {
+
+ //#2
+         Post.findById(1)
+         .then((post) => {
+           expect(err).toBeNull();
+           expect(post).toBeNull();
+           done();
+         })
+       });
+
+     });
+
+   });
+
+   it("should not delete a new comment that fails validations", () => {
+     const options = {
+       url: `${base}/${this.topic.id}/posts/${this.post.id}/destroy`,
+       form: {
+
+//#1
+         user: "member"
+       }
+     };
+
+     request.post(options,
+       (err, res, body) => {
+
+//#2
+         Post.findOne({where: {user: "member"}})
+         .then((post) => {
+             expect(post).toBeNull();
+             done();
+         })
+         .catch((err) => {
+           console.log(err);
+           done();
+         });
+       }
+     );
+   });
+   });
