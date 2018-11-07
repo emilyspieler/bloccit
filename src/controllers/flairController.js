@@ -3,12 +3,10 @@ const flairQueries = require("../db/queries.flairs.js");
 module.exports = {
 
   new(req, res, next){
-    console.log("working?")
      res.render("flairs/new", {topicId: req.params.topicId});
    },
 
    create(req, res, next){
-     console.log("working?")
      let newFlair= {
        name: req.body.name,
        color: req.body.color,

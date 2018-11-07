@@ -48,7 +48,7 @@ describe("routes : flairs", () => {
   })
   });
 
-  describe("GET /topics/:topicId/flairs/new", () => {
+  describe("GET /topics/:topicId/flairs/new", (done) => {
 
     it("should render a new flair form", () => {
       request.get(`${base}/${this.topic.id}/posts/new`, (err, res, body) => {
@@ -60,7 +60,7 @@ describe("routes : flairs", () => {
 
   });
 
-  describe("POST /topics/:topicId/flairs/create", () => {
+  describe("POST /topics/:topicId/flairs/create", (done) => {
 
    it("should create a new flair and redirect", () => {
       const options = {
@@ -88,7 +88,7 @@ describe("routes : flairs", () => {
            });
        });
    });
- describe("GET /topics/:topicId/specs/:id", () => {
+ describe("GET /topics/:topicId/specs/:id", (done) => {
 
      it("should render a view with the selected flair", () => {
        request.get(`${base}/${this.topic.id}/flairs/${this.flair.id}`, (err, res, body) => {
@@ -100,7 +100,7 @@ describe("routes : flairs", () => {
 
    });
 
-   describe("POST /topics/:topicId/flairs/:id/destroy", () => {
+   describe("POST /topics/:topicId/flairs/:id/destroy", (done) => {
 
         it("should delete the flair with the associated ID", () => {
 
@@ -134,7 +134,7 @@ describe("routes : flairs", () => {
 
    });
 
-   describe("POST /topics/:topicId/flairs/:id/update", () => {
+   describe("POST /topics/:topicId/flairs/:id/update", (done) => {
 
      it("should return a status code 302", () => {
        request.flair({
@@ -150,7 +150,7 @@ describe("routes : flairs", () => {
      });
 
 
-     it("should update the flair with the given values", () => {
+     it("should update the flair with the given values", (done) => {
             const options = {
                 url: `${base}/${this.topic.id}/flairs/${this.flair.id}/update`,
                 form: {

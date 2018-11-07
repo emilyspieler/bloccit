@@ -1,8 +1,6 @@
 const Flair = require("./models").Flair;
 const Topic = require("./models").Topic;
 
-//problem was here? 
-
 module.exports = {
   addFlair(newFlair, callback){
       return Flair.create(newFlair)
