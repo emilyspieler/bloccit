@@ -55,12 +55,10 @@ describe("routes : posts", () => {
          form: {
            role: "member"
          }
-       },
-         (err, res, body) => {
+       });
            done();
          }
        );
-     });
 
   describe("GET /topics/:topicId/posts/new", () => {
 
@@ -287,8 +285,8 @@ describe("routes : posts", () => {
                    done();
                })
                .catch((err) => {
-                 console.log(err);
-                
+          
+                 done();
                });
              }
            );
