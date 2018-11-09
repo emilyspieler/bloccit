@@ -195,7 +195,8 @@ describe("Vote", () => {
 
          });
 
-         describe("#setPost()", () => {
+
+    describe("#setPost()", () => {
 
      it("should associate a post and a vote together", (done) => {
 
@@ -234,7 +235,6 @@ describe("Vote", () => {
 
    });
 
-// #2
    describe("#getPost()", () => {
 
      it("should return the associated post", (done) => {
@@ -255,6 +255,66 @@ describe("Vote", () => {
          done();
        });
      });
-
    });
+
+   //upvote and downvote functions
+
+   describe('#hasUpvoteFor()', () => {
+       it('should return true if the user with matching id is a upvote', (done) => {
+           Post.create({
+               title: "being emily",
+               body: "was awesome",
+               topicId: this.topic.id,
+               userId: this.user.id,
+               votes: [{
+                   value: 1,
+                   userId: this.user.id,
+                   postId: this.post.id
+               }]
+           }, {
+               include: {
+                   model: Vote,
+                   as: "votes"
+               }
+           })
+           .then((post) => {
+               expect(post.hasUpvoteFor(post.userId)).toBe(true);
+               done();
+           })
+           .catch((err) => {
+               console.log(err);
+               done();
+           });
+       });
+   });
+
+   describe('#hasDownvoteFor()', () => {
+       it('should return true if the user with matching id is a downvote', (done) => {
+           Post.create({
+               title: "being emily",
+               body: "was awesome",
+               topicId: this.topic.id,
+               userId: this.user.id,
+               votes: [{
+                   value: -1,
+                   userId: this.user.id,
+                   postId: this.post.id
+               }]
+           }, {
+               include: {
+                   model: Vote,
+                   as: "votes"
+               }
+           })
+           .then((user) => {
+               expect(post.hasDownvoteFor(post.userId)).toBe(true);
+               done();
+           })
+           .catch((err) => {
+               console.log(err);
+               done();
+           });
+       });
+   });
+
 });

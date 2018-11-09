@@ -2,6 +2,7 @@ const sequelize = require("../../src/db/models/index").sequelize;
 const Topic = require("../../src/db/models").Topic;
 const Post = require("../../src/db/models").Post;
 const User = require("../../src/db/models").User;
+const Vote = require("../../src/db/models").Vote;
 
 describe("Post", () => {
 
@@ -44,7 +45,7 @@ describe("Post", () => {
 
   describe("#create()", () => {
 
-     it("should create a post object with a title, body, and assigned topic and user", () => {
+     it("should create a post object with a title, body, and assigned topic and user", (done) => {
 //#1
        Post.create({
          title: "Pros of Cryosleep during the long journey",
@@ -70,7 +71,7 @@ describe("Post", () => {
 
    });
 
-   it("should not create a post with missing title, body, or assigned topic", () => {
+   it("should not create a post with missing title, body, or assigned topic", (done) => {
      Post.create({
        title: "Pros of Cryosleep during the long journey"
      })
@@ -94,7 +95,7 @@ describe("Post", () => {
 
    describe("#setTopic()", () => {
 
-        it("should associate a topic and a post together", () => {
+        it("should associate a topic and a post together", (done) => {
 
    // #1
           Topic.create({
@@ -134,7 +135,7 @@ describe("Post", () => {
 
    describe("#setUser()", () => {
 
-     it("should associate a post and a user together", () => {
+     it("should associate a post and a user together", (done) => {
 
        User.create({
          email: "ada@example.com",
@@ -158,7 +159,7 @@ describe("Post", () => {
 
    describe("#getUser()", () => {
 
-     it("should return the associated topic", () => {
+     it("should return the associated topic", (done) => {
 
        this.post.getUser()
        .then((associatedUser) => {
@@ -170,4 +171,32 @@ describe("Post", () => {
 
    });
 
+   //checkpoint: get points function
+
+   describe('#getPoints()', () => {
+    it('should return the number of votes associated with the post', (done) => {
+        Post.create({
+            title: "Posting Test",
+            body: "Posting body",
+            topicId: this.topic.id,
+            userId: this.user.id,
+            votes: [{
+                value: 1,
+                userId: this.user.id
+            }]
+        }, {
+            include: {
+                model: Vote,
+                as: "votes"
+            }
+        })
+        .then((post) => {
+            expect(post.getPoints()).toBe(1);
+            done();
+        })
+        .catch((err) => {
+            console.log(err);
+            done();
+        });
+    });
 });

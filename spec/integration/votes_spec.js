@@ -146,6 +146,9 @@ describe("routes : votes", () => {
        });
      });
 
+
+      // Checkpoint: Vote value is one upvote/downvote cannot equal 2 or -2
+
      it("should not create a second upvote", (done) => {
        const options = {
          url: `${base}${this.topic.id}/posts/${this.post.id}/votes/upvote`
@@ -158,11 +161,12 @@ describe("routes : votes", () => {
                postId: this.post.id
              }
            })
-           .then((vote) => {               // confirm that a second upvote was created
+           .then((vote) => {
              expect(vote).not.toBeNull();
-             expect(vote.value).toBe(2);
+             expect(vote.value).toBe(1);
              expect(vote.userId).toBe(this.user.id);
              expect(vote.postId).toBe(this.post.id);
+             expect(vote.value).not.toBe( 2 || -2 );
              done();
            })
            .catch((err) => {
@@ -173,6 +177,7 @@ describe("routes : votes", () => {
        );
      });
    });
+
      describe("GET /topics/:topicId/posts/:postId/votes/downvote", () => {
 
        it("should create a downvote", (done) => {
@@ -201,9 +206,36 @@ describe("routes : votes", () => {
            }
          );
        });
+
+
+       it("should not create a second downvote", (done) => {
+         const options = {
+           url: `${base}${this.topic.id}/posts/${this.post.id}/votes/downvote`
+         };
+         request.get(options,
+           (err, res, body) => {
+             Vote.findOne({
+               where: {
+                 userId: this.user.id,
+                 postId: this.post.id
+               }
+             })
+             .then((vote) => {
+               expect(vote).not.toBeNull();
+               expect(vote.value).toBe(-1);
+               expect(vote.userId).toBe(this.user.id);
+               expect(vote.postId).toBe(this.post.id);
+               expect(vote.value).not.toBe(-2);
+               done();
+             })
+             .catch((err) => {
+               console.log(err);
+               done();
+             });
+           }
+         );
+       });
      });
 
-   }); //end context for signed in user
 
-
-});
+       });
