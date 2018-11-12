@@ -43,16 +43,27 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Post.afterCreate((post, callback) => {
-     return models.Favorite.create({
+     return models.Vote.create({
        userId: post.userId,
-       postId: post.id
-     });
+       postId: post.id,
+       value: 1
    });
-  };
+  });
+
+  Post.afterCreate((post, callback) => {
+       return models.Favorite.create({
+         userId: post.userId,
+         postId: post.id
+       });
+     });
+
+ };
+
 
   Post.prototype.getFavoriteFor = function(userId){
       return this.favorites.find((favorite) => { return favorite.userId == userId });
     };
+
 
   Post.prototype.getPoints = function(){
 

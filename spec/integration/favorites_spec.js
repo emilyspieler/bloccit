@@ -96,7 +96,7 @@ describe("routes : favorites", () => {
                 console.log(err);
                 done();
               });
-            });  
+            });
         });
       });
     });

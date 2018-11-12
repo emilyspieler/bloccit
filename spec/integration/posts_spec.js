@@ -202,11 +202,12 @@ describe("routes : posts", () => {
                 expect(err).toBeNull();
                 expect(post).toBeNull();
                 done();
-              })
-            });
+              });
+
 
           });
 
+        });
         });
 
 
@@ -285,12 +286,12 @@ describe("routes : posts", () => {
                    done();
                })
                .catch((err) => {
-          
+
                  done();
                });
              }
            );
          });
-       });
-     });
+        });
+      });
     });
