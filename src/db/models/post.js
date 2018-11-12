@@ -75,5 +75,17 @@ module.exports = (sequelize, DataTypes) => {
       .map((v) => { return v.value })
       .reduce((prev, next) => { return prev + next });
   };
+
+  // #1
+     Post.addScope("lastFiveFor", (userId) => {
+   // #2
+       return {
+         where: { userId: userId},
+   // #3
+         limit: 5,
+         order: [["createdAt", "DESC"]]
+       }
+     });
+  
   return Post;
 };
