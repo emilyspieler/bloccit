@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
  }
   }, {});
   User.associate = function(models) {
-    // associations can be defined here
+
     User.hasMany(models.Post, {
       foreignKey: "userId",
       as: "posts"
@@ -36,6 +36,21 @@ module.exports = (sequelize, DataTypes) => {
      foreignKey: "userId",
      as: "favorites"
    });
+
+   User.addScope("lastFiveFor", (userId) => {
+
+     return {
+       include: [{
+         model: models.Favorite
+       }],
+
+       where: {userId: userId},
+
+       limit: 5,
+       order: [["createdAt", "DESC"]]
+     }
+   });
+
   };
   User.prototype.isAdmin = function() {
      return this.role === "admin";
