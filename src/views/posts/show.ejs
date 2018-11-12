@@ -12,9 +12,11 @@
          <% include ../votes/voting.ejs %>
        <% } %>
 
-    <main class="container">
+
 
     <h1><%= post.title %></h1>
+
+    <main class="container">
 
     </div>
 
@@ -27,6 +29,10 @@
     </form>
   <% } %>
 <% } %>
+
+<% if(currentUser) { %>
+     <% include ../favorites/favoriting.ejs %>
+   <% } %>
 
     <p><%= post.body %></p>
 
