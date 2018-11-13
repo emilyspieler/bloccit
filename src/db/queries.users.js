@@ -38,6 +38,7 @@ module.exports = {
       } else {
 
         result["user"] = user;
+        
 
         Post.scope({method: ["lastFiveFor", id]}).all()
         .then((posts) => {

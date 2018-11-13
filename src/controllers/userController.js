@@ -62,7 +62,9 @@ module.exports = {
         res.redirect("/");
       } else {
 
-   // #3
+
+        var user = req.user
+
         res.render("users/show", {...result});
       }
     });
