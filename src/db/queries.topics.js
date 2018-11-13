@@ -18,9 +18,9 @@ module.exports = {
   },
 
   getTopic(id, callback){
-    //  return Topic.findById(id)
+
       return Topic.findById(id, {
-//#3
+
       include: [{
           model: Post,
           as: "posts"
@@ -55,15 +55,15 @@ module.exports = {
 
       deleteTopic(req, callback){
 
-// #1
+
     return Topic.findById(req.params.id)
     .then((topic) => {
 
-// #2
+
       const authorized = new Authorizer(req.user, topic).destroy();
 
       if(authorized) {
-// #3
+
         topic.destroy()
         .then((res) => {
           callback(null, topic);
@@ -71,7 +71,7 @@ module.exports = {
 
       } else {
 
-// #4
+
         req.flash("notice", "You are not authorized to do that.")
         callback(401);
       }

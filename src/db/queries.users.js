@@ -28,7 +28,7 @@ module.exports = {
     let result = {};
     User.findById(id, {
         include: [
-          {model: Favorite, as: "favorites"}
+          {model: Favorite, as: 'favorites'}
         ]
       })
     .then((user) => {
@@ -43,17 +43,17 @@ module.exports = {
         .then((posts) => {
           result["posts"] = posts;
 
-          User.scope({method: ["lastFiveFor", id]}).all()
+          Favorite.scope({method: ["lastFiveFor", id]}).all()
           .then((favorites) => {
             result["favorites"] = favorites;
-            callback(null, result);
-          })
+
 
           Comment.scope({method: ["lastFiveFor", id]}).all()
           .then((comments) => {
             result["comments"] = comments;
             callback(null, result);
           })
+            })
           .catch((err) => {
             callback(err);
           })

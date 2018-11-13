@@ -26,10 +26,8 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: "CASCADE"
     });
 
-
   Comment.addScope("lastFiveFor", (userId) => {
 
- // #1
      return {
        include: [{
          model: models.Post

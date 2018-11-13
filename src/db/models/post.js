@@ -60,23 +60,23 @@ module.exports = (sequelize, DataTypes) => {
  };
 
 
-  Post.prototype.getFavoriteFor = function(userId){
-      return this.favorites.find((favorite) => { return favorite.userId == userId });
-    };
+ Post.prototype.getFavoriteFor = function(userId){
+    return (this.favorites ? this.favorites.find((favorite) => { return favorite.userId == userId }) : []);
+  };
 
 
   Post.prototype.getPoints = function(){
 
-// #1
+
     if(this.votes.length === 0) return 0
 
-// #2
+
     return this.votes
       .map((v) => { return v.value })
       .reduce((prev, next) => { return prev + next });
   };
 
-  
+
      Post.addScope("lastFiveFor", (userId) => {
 
        return {
@@ -86,8 +86,6 @@ module.exports = (sequelize, DataTypes) => {
          order: [["createdAt", "DESC"]]
        }
      });
-
-
 
   return Post;
 };
