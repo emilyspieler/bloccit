@@ -39,15 +39,21 @@
       <ul class="list-unstyled">
 
 
-            <% posts.forEach((post) => { %>
-
+        <% if (favorites) { %>
+          <% favorites.forEach(favorite => { %>
+            <%- JSON.stringify(favorite.postId) %>
 
             <li>
-                <a href="/topics/<%= post.topicId %>/posts/<%= post.id %>">
-                <%= post.title %>
+              <a href="/topics/<%= favorite.getPost().topicId %>/posts/<%= favorite.getPost().id %>">
+                <%= favorite.getPost().title %>
               </a>
             </li>
-              <% }) %>
+
+            <% }) %>
+        <% } else { %>
+          <p> You have no favorites currently, go read some posts and add to your collection of Favorite Posts! </p>
+        <% } %>
+
       </ul>
       <hr>
 
