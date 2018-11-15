@@ -12,21 +12,41 @@
       <% include ../static/partials/messages.ejs %>
 
 
+      <h1><%= `${user.email}'s profile` %></h1>
+
+      <hr>
+
+      <h2> Latest Posts</h2>
+
+      <ul class="list-unstyled">
+
+
+        <% if(posts) { %>
+          <% posts.forEach((post) => { %>
+            <li>
+              <a href="/topics/<%= post.topicId %>/posts/<%= post.id %>">
+                <%= post.title %>
+              </a>
+            </li>
+          <% }) %>
+        <% } %>
+      </ul>
+      <hr>
+
       <h2> Latest Favorited Posts</h2>
 
       <ul class="list-unstyled">
 
 
-      <% if(result["posts"]) { %>
-        <% if(result["favorites"]) { %>
-
+        <% if (favorites) { %>
+          <% favorites.forEach(favorite => { %>
+            <%- JSON.stringify(favorite.postId) %>
             <li>
-              <a href="/topics/<%= favorite.Post.topicId %>/posts/<%= favorite.Post.id %>">
-                <%= favorite.Post.title %>
+              <a href="/topics/<%= favorite.getPost().topicId %>/posts/<%= favorite.getPost().id %>">
+                <%= favorite.getPost().title %>
               </a>
             </li>
-
-            <% } %>
+            <% }) %>
         <% } else { %>
           <p> You have no favorites currently, go read some posts and add to your collection of Favorite Posts! </p>
         <% } %>
@@ -41,7 +61,6 @@
 
         <% if(comments) { %>
           <% comments.forEach((comment) => { %>
-
             <li>
               <span>Post: </span><a href="/topics/<%= comment.Post.topicId %>/posts/<%= comment.Post.id %>">
                 <%= comment.Post.title %>
