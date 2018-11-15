@@ -64,8 +64,8 @@ module.exports = {
 
 
         var user = req.user
-        console.log(result);
-        res.render("users/show", {...result});
+
+        res.render("users/show", {result});
 
       }
     });
