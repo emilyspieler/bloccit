@@ -26,7 +26,8 @@ module.exports = {
          ]},
         {model: Vote, as: "votes"},
         {model: Favorite, as: "favorites"}
-       ]
+      ]
+      console.log(favorite.getPost());
      })
      .then((post) => {
        callback(null, post);
