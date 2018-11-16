@@ -46,7 +46,7 @@ module.exports = {
        if(err || post == null){
          res.redirect(404, "/");
        } else {
-         res.render("posts/show", {post});
+         res.render("posts/show", {...result});
        }
      });
    },
